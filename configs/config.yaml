@@ -1,0 +1,89 @@
+# API 映射配置
+api_mappings:
+  discord: "https://discord.com/api"
+  telegram: "https://api.telegram.org"
+  openai: "https://api.openai.com"
+  oaipro: "https://api.oaipro.com"
+  claude: "https://api.anthropic.com"
+  gemini: "https://generativelanguage.googleapis.com"
+  meta: "https://www.meta.ai/api"
+  groq: "https://api.groq.com/openai"
+  xai: "https://api.x.ai"
+  cohere: "https://api.cohere.ai"
+  huggingface: "https://api-inference.huggingface.co"
+  together: "https://api.together.xyz"
+  novita: "https://api.novita.ai"
+  portkey: "https://api.portkey.ai"
+  fireworks: "https://api.fireworks.ai"
+  openrouter: "https://openrouter.ai/api"
+  yahoo: "https://query2.finance.yahoo.com"
+
+# 服务器配置
+server:
+  port: 8080
+  timeout: 30s  # 支持时间单位：s, ms, m, h
+  rate_limit:
+    requests_per_second: 100
+    burst: 200
+
+# 代理服务器配置
+proxy:
+  # 是否启用代理
+  enabled: true
+  # 代理服务器地址 (支持 http 和 https)
+  # 例如: http://127.0.0.1:7890 或 socks5://127.0.0.1:7890
+  # url: "http://127.0.0.1:7890"
+  # 或 HTTPS 代理
+  # url: "https://127.0.0.1:7890"
+  # 或 SOCKS5 代理
+  url: "socks5://127.0.0.1:3066"
+
+# 安全配置
+security:
+  # IP 控制
+  ip_control:
+    enabled: false
+    whitelist: []  # 例如: ["127.0.0.1", "10.0.0.0/8"]
+    blacklist: []  # 例如: ["1.2.3.4"]
+
+  # 基本认证
+  basic_auth:
+    enabled: false
+    credentials:
+      - username: admin
+        password: your-secure-password
+
+# 监控配置
+monitoring:
+  # 性能指标
+  metrics:
+    enabled: true
+    path: "/metrics"  # Prometheus 指标路径
+
+  # 健康检查
+  health:
+    enabled: true
+    detailed_path: "/health"  # 详细健康检查路径
+    checks:
+      - name: "proxy"
+        timeout: "5s"
+      - name: "api"
+        timeout: "5s"
+
+# 追踪配置
+tracing:
+  enabled: true
+  header_name: "X-Request-ID"
+
+# 传输配置
+transport:
+  max_idle_conns: 100
+  max_idle_conns_per_host: 10
+  idle_conn_timeout: 90s
+  max_conn_lifetime: 4m
+  tls_skip_verify: false
+
+# 压缩配置
+compression:
+  enabled: true
+  level: "default"  # 可选值: none, speed, default, best
