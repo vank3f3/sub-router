@@ -1,0 +1,46 @@
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Vendor directory
+/vendor/
+
+# Dependency directories
+/go.sum
+/go.mod
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.DS_Store
+
+# Docker files
+*.tar
+*.gz
+*.zip
+
+# Configuration files
+*.env
+*.local
+
+# Test results
+/test-results/
+*.out
+
+# Ignore binaries
+# /cmd/server/main
+# /cmd/stress
