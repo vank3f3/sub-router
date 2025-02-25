@@ -80,10 +80,10 @@ jobs:
         context: .
         push: true
         tags: |
-          abc/sub-router:latest
-          abc/sub-router:${{ steps.version.outputs.version }}
-        cache-from: type=registry,ref=abc/sub-router:buildcache
-        cache-to: type=registry,ref=abc/sub-router:buildcache,mode=max
+          vank3f3/sub-router:latest
+          vank3f3/sub-router:${{ steps.version.outputs.version }}
+        cache-from: type=registry,ref=vank3f3/sub-router:buildcache
+        cache-to: type=registry,ref=vank3f3/sub-router:buildcache,mode=max
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }} 
