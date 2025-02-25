@@ -42,7 +42,7 @@ func TestProxyIntegration(t *testing.T) {
 	// 配置代理
 	config.GlobalConfig = config.Config{
 		APIMappings: map[string]string{
-			"test": testServer.URL,
+			"test": testServer.URL, // 使用测试服务器的 URL
 		},
 	}
 
