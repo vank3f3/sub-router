@@ -51,6 +51,7 @@ server:
   rate_limit:
     requests_per_second: 100
     burst: 200
+  gin_mode: "release" # Set to "release" for production
 ```
 
 ### API 映射配置

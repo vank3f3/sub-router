@@ -15,6 +15,7 @@ type ServerConfig struct {
 		RequestsPerSecond float64 `mapstructure:"requests_per_second"`
 		Burst             int     `mapstructure:"burst"`
 	} `mapstructure:"rate_limit"`
+	GinMode string `mapstructure:"gin_mode"`
 }
 
 // ProxyConfig 代理配置
@@ -144,6 +145,7 @@ func setDefaultConfig() {
 	viper.SetDefault("server.timeout", "30s")
 	viper.SetDefault("server.rate_limit.requests_per_second", 100)
 	viper.SetDefault("server.rate_limit.burst", 200)
+	viper.SetDefault("server.gin_mode", "debug")
 
 	// 传输层默认配置
 	viper.SetDefault("transport.max_idle_conns", 100)

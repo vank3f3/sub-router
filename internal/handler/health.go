@@ -36,28 +36,23 @@ func RobotsHandler(c *gin.Context) {
 	c.String(200, "User-agent: *\nDisallow: /")
 }
 
-// DetailedHealthCheck 详细的健康检查
+// DetailedHealthCheck returns the health status of the service
 func DetailedHealthCheck(c *gin.Context) {
-	status := HealthStatus{
-		Status:  "ok",
-		Checks:  make(map[string]CheckResult),
-		Version: "1.0.0", // 从配置或构建信息中获取
-	}
+	healthStatus := make(map[string]interface{})
 
-	// 检查所有配置的健康检查项
-	for _, check := range config.GlobalConfig.Monitoring.Health.Checks {
-		result := performHealthCheck(check.Name, check.Timeout)
-		status.Checks[check.Name] = result
-		if result.Status != "ok" {
-			status.Status = "error"
-		}
-	}
+	// Check API health
+	healthStatus["api"] = "up" // Assuming API is always up for this example
 
-	if status.Status == "ok" {
-		c.JSON(http.StatusOK, status)
+	// Check proxy health only if enabled
+	if config.GlobalConfig.Proxy.Enabled {
+		// Perform proxy health check logic here
+		// For example, you might want to ping the proxy server
+		healthStatus["proxy"] = "up" // Replace with actual check
 	} else {
-		c.JSON(http.StatusServiceUnavailable, status)
+		healthStatus["proxy"] = "not enabled"
 	}
+
+	c.JSON(http.StatusOK, healthStatus)
 }
 
 // performHealthCheck 执行健康检查

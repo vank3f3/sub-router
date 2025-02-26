@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -23,6 +24,11 @@ func main() {
 	}
 	defer logger.Sync()
 
+	// 创建日志目录
+	if err := os.MkdirAll("logs", os.ModePerm); err != nil {
+		log.Fatalf("无法创建日志目录: %v", err)
+	}
+
 	// 加载配置
 	if err := config.LoadConfig(); err != nil {
 		log.Fatalf("Failed to load config: %v", err)
@@ -36,10 +42,15 @@ func main() {
 	defer transport.CloseGlobalPool()
 
 	// 创建 gin 引擎
+	ginMode := config.GlobalConfig.Server.GinMode // 读取 GIN_MODE
+	gin.SetMode(ginMode)                          // 设置 GIN_MODE
 	r := gin.New()
 
 	// 添加中间件（注意顺序）
-	r.Use(gin.Logger())                // 添加 gin 的默认日志中间件
+	r.Use(middleware.RequestLogger()) // 添加请求日志中间件
+	if ginMode != "release" {
+		r.Use(gin.Logger()) // 仅在非 release 模式下使用日志中间件
+	}
 	r.Use(gin.Recovery())              // 错误恢复
 	r.Use(middleware.Tracing())        // 请求追踪
 	r.Use(middleware.Logger(logger))   // 自定义日志记录
